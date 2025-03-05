@@ -32,6 +32,9 @@ Replace 'player' with the player name you wish to remove trust access for. This 
 ### /horse transfer player
 This will transfer ownership of the horse to the player you specify in the command.
 
+### /horse whitelist <add|remove>
+This will add or remove a horse from a whitelist which prevents players from taking ownership of it
+
 ## Permissions
 The below permissions are ideal for server mods or staff allowing them to manage player owned horses on your server.
 

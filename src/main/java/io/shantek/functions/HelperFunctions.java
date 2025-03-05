@@ -109,7 +109,19 @@ public class HelperFunctions {
     public void removeHorse(UUID horseUUID) {
         horseGuard.horseOwners.remove(horseUUID);
         horseGuard.trustedPlayers.remove(horseUUID);
+        horseGuard.whitelistedHorses.remove(horseUUID);
         horseGuard.getConfiguration().saveHorseData(); // Save data after modifying
     }
 
+    public void addHorseToWhitelist(UUID horseUUID) {
+        horseGuard.whitelistedHorses.add(horseUUID);
+        horseGuard.horseOwners.remove(horseUUID);
+        horseGuard.trustedPlayers.remove(horseUUID);
+        horseGuard.getConfiguration().saveHorseData(); // Save data after modifying
+    }
+
+    public void removeHorseFromWhitelist(UUID horseUUID) {
+        horseGuard.whitelistedHorses.remove(horseUUID);
+        horseGuard.getConfiguration().saveHorseData(); // Save data after modifying
+    }
 }

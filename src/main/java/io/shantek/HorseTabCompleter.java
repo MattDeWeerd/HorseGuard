@@ -33,6 +33,7 @@ public class HorseTabCompleter implements TabCompleter {
             subcommands.add("untrust");
             subcommands.add("trustlist");
             subcommands.add("transfer");
+            subcommands.add("whitelist");
             return subcommands;
         } else if (args.length == 2) {
             String subCommand = args[0].toLowerCase();
@@ -67,6 +68,12 @@ public class HorseTabCompleter implements TabCompleter {
                 }
 
                 return trustedPlayerNames.isEmpty() ? null : trustedPlayerNames;
+            } else if (subCommand.equals("whitelist")) {
+                // Populate with "add" and "remove" for "/horse whitelist <add|remove>"
+                List<String> whitelistOptions = new ArrayList<>();
+                whitelistOptions.add("add");
+                whitelistOptions.add("remove");
+                return whitelistOptions;
             }
         }
 

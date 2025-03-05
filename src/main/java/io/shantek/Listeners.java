@@ -33,6 +33,11 @@ public class Listeners implements Listener {
         if (event.getEntity() instanceof AbstractHorse horse) {
             Player player = (Player) event.getOwner();
             UUID entityUUID = horse.getUniqueId();
+            // Check if the horse is in the whitelist or not
+            if (plugin.whitelistedHorses.contains(entityUUID)) {
+                player.sendMessage(plugin.getMessagePrefix() + "This " + horse.getType().name().toLowerCase() + "is not claimable.");
+                return;
+            }
             UUID playerUUID = player.getUniqueId();
             helperFunctions.setHorseOwner(entityUUID, playerUUID);
             player.sendMessage(plugin.getMessagePrefix() + "You tamed a new " + horse.getType().name().toLowerCase() + ".");
@@ -49,6 +54,11 @@ public class Listeners implements Listener {
             Player player = event.getPlayer();
             UUID entityUUID = entity.getUniqueId();
 
+            if(plugin.whitelistedHorses.contains(entityUUID)){
+                // Ignore interactions with whitelisted horses
+                return;
+            }
+
             if (entity.getOwner() != null && player.hasPermission("shantek.horseguard.ride")) {
                 return;
             }
@@ -63,6 +73,11 @@ public class Listeners implements Listener {
         UUID ownerUUID = helperFunctions.getHorseOwner(entityUUID);
 
         if (ownerUUID == null) {
+            // Check if the horse is in the whitelist or not
+            if (plugin.whitelistedHorses.contains(entityUUID)) {
+                player.sendMessage(plugin.getMessagePrefix() + "This " + entity.getType().name().toLowerCase() + "is not claimable.");
+                return true;
+            }
             // No owner, allow the player to claim it
             claimEntity(player, entity, entityUUID);
             entity.setOwner(player); // Set player as the owner of the entity
