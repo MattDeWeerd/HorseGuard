@@ -43,11 +43,18 @@ public class Configuration {
                 horseGuard.trustedPlayers.put(horseUUID, trustedSet);
             }
         }
+        if (dataConfig.contains("whitelistedHorses")) {
+            List<String> whitelistedUUIDStrings = dataConfig.getStringList("whitelistedHorses");
+            for (String uuidString : whitelistedUUIDStrings) {
+                horseGuard.whitelistedHorses.add(UUID.fromString(uuidString));
+            }
+        }
     }
 
     public void saveHorseData() {
         dataConfig.set("horseOwners", null); // Clear existing data
         dataConfig.set("trustedPlayers", null);
+        dataConfig.set("whitelistedHorses", null);
 
         // Save horse owners as strings
         for (UUID horseUUID : horseGuard.horseOwners.keySet()) {
@@ -63,6 +70,13 @@ public class Configuration {
             }
             dataConfig.set("trustedPlayers." + horseUUID.toString(), trustedUUIDStrings);
         }
+
+        // Save whitelisted horses as a list of strings
+        List<String> whitelistedUUIDStrings = new ArrayList<>();
+        for (UUID horseUuid : horseGuard.whitelistedHorses) {
+            whitelistedUUIDStrings.add(horseUuid.toString());
+        }
+        dataConfig.set("whitelistedHorses", whitelistedUUIDStrings);
 
         try {
             dataConfig.save(dataFile);

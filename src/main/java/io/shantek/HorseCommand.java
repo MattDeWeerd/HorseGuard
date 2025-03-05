@@ -56,6 +56,9 @@ public class HorseCommand implements CommandExecutor {
             case "transfer":
                 handleTransfer(player, args);
                 break;
+            case "whitelist":
+                handleWhitelist(player, args);
+                break;
             default:
                 player.sendMessage("Unknown sub-command.");
                 break;
@@ -162,6 +165,33 @@ public class HorseCommand implements CommandExecutor {
 
         player.sendMessage(plugin.getMessagePrefix() + "Ownership of your " + entityType + " has been transferred to " + targetName + ".");
         horse.eject();
+    }
+
+    private void handleWhitelist(Player player, String[] args) {
+        if (args.length < 2) {
+            Bukkit.getLogger().info("Usage: /horse whitelist <add|remove>");
+            return;
+        }
+
+        String action = args[1].toLowerCase();
+        AbstractHorse entity = getRiddenHorse(player);
+        if (entity == null) return;
+        UUID horseUUID = entity.getUniqueId();
+        
+        switch (action) {
+            case "add":
+                helperFunctions.addHorseToWhitelist(horseUUID);
+                player.sendMessage(plugin.getMessagePrefix() + entity.getType().name().toLowerCase() + " with UUID " + horseUUID + " has been added to the whitelist.");
+                break;
+                
+            case "remove":
+                helperFunctions.removeHorseFromWhitelist(horseUUID);
+                player.sendMessage(plugin.getMessagePrefix() + entity.getType().name().toLowerCase() + " with UUID " + horseUUID + " has been removed from the whitelist.");
+                break;
+            default:
+                player.sendMessage(plugin.getMessagePrefix() + "Unknown action. Use 'add' or 'remove'.");
+                break;
+        }
     }
 
     private AbstractHorse getRiddenHorse(Player player) {

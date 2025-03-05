@@ -14,6 +14,7 @@ public class HorseGuard extends JavaPlugin {
 
     public HashMap<UUID, UUID> horseOwners = new HashMap<>();
     public HashMap<UUID, HashSet<UUID>> trustedPlayers = new HashMap<>();
+    public HashSet<UUID> whitelistedHorses = new HashSet<>();
     private Configuration configuration;
     public Metrics metrics;
 
